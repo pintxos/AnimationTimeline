@@ -1,0 +1,19 @@
+{
+  "name": "pintxos-animation_timer",
+  "version": "0.0.0",
+  "homepage": "https://github.com/pintxos/AnimationTimer",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "Gruntfile.js",
+    "package.json"
+  ],
+  "authors": [
+    "Jelle Versele"
+  ],
+  "dependencies": {
+    "eventEmitter": "~4.2.9"
+  }
+}
