@@ -41,12 +41,12 @@
 			this._settings = $.extend(true, {}, _defaults, options);
 
 			this._duration = duration;
-    		this._progress = 0;
-    		this._stop = false;
+			this._progress = 0;
+			this._stop = false;
 
-    		// determine easing function
-    		easing = this._settings.easing;
-    		this._easing = (typeof easing === 'function') ? easing : AnimationTimer.easing[easing];
+			// determine easing function
+			easing = this._settings.easing;
+			this._easing = (typeof easing === 'function') ? easing : AnimationTimer.easing[easing];
 
 		};
 
@@ -79,29 +79,29 @@
 
 		AnimationTimer.prototype.start = function () {
 			this._stop = false;
-    		this._startTime = new Date().getTime();
-    		this._tick(this._progress);
+			this._startTime = new Date().getTime();
+			this._tick(this._progress);
 		};
 
 		AnimationTimer.prototype._tick = function (progress) {
 			var currTime, time, _self;
 
-		    _self = this;
+			_self = this;
 
-		    currTime = new Date().getTime();
-		    time = currTime - this._startTime;
+			currTime = new Date().getTime();
+			time = currTime - this._startTime;
 
-		    progress = (typeof progress === 'undefined') ? 0 : progress;
+			progress = (typeof progress === 'undefined') ? 0 : progress;
 
-		    this._progress = Math.min(this._easing(time / this._duration) + progress, 1);
+			this._progress = Math.min(this._easing(time / this._duration) + progress, 1);
 
-		    this.emit(this._settings.events.tick, this._progress);
+			this.emit(this._settings.events.tick, this._progress);
 
-		    if(this._progress < 1 && !this._stop) {
-		        rAF(function () {
-		        	_self._tick();
-		        });
-		    }
+			if(this._progress < 1 && !this._stop) {
+				rAF(function () {
+					_self._tick();
+				});
+			}
 		}
 
 		AnimationTimer.prototype.reset = function () {
