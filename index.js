@@ -40,7 +40,7 @@
 
 			this._settings = $.extend(true, {}, _defaults, options);
 
-			this._duration = duration;
+			this._duration = (typeof duration !== 'number') 500 : duration;
 			this._progress = 0;
 			this._stop = false;
 
