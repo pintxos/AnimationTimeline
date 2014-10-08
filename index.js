@@ -39,8 +39,7 @@
 			var easing;
 
 			this._settings = $.extend(true, {}, _defaults, options);
-
-			this._duration = (typeof duration !== 'number') 500 : duration;
+			this._duration = (typeof duration !== 'number') ? 500 : duration;
 			this._progress = 0;
 			this._stop = false;
 
@@ -55,9 +54,9 @@
 		/* Static properties
 		----------------------------------------------- */
 		AnimationTimeline.easing = {
-			linear: function (t) { return t },
-			easeInQuad: function (t) { return t*t },
-			easeOutQuad: function (t) { return t*(2-t) }
+			linear: function (t) { return t; },
+			easeInQuad: function (t) { return t*t; },
+			easeOutQuad: function (t) { return t*(2-t); }
 		};
 
 
@@ -116,7 +115,7 @@
 					_self._tick();
 				});
 			}
-		}
+		};
 
 		/**
 		 * Resets the progress param
