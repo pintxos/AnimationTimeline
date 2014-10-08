@@ -1,5 +1,5 @@
 {
-	"name": "pintxos-animationtimer",
+	"name": "pintxos-animation_timeline",
 	"version": "0.0.0",
 	"main": "index.js",
 	"devDependencies": {

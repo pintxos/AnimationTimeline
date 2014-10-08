@@ -1,7 +1,7 @@
 {
-  "name": "pintxos-animation_timer",
+  "name": "pintxos-animation_timeline",
   "version": "0.0.0",
-  "homepage": "https://github.com/pintxos/AnimationTimer",
+  "homepage": "https://github.com/pintxos/AnimationTimeline",
   "ignore": [
     "**/.*",
     "node_modules",

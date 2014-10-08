@@ -6,7 +6,7 @@
 	if(typeof define !== 'function') {
 		window.define = function(deps, definition) {
 			window.pintxos = window.pintxos || {};
-			window.pintxos.AnimationTimer = definition(jQuery, pintxos.inherit, EventEmitter);
+			window.pintxos.AnimationTimeline = definition(jQuery, pintxos.inherit, EventEmitter);
 			define = null;
 		};
 	}
@@ -23,18 +23,18 @@
 	) {
 
 
-		var AnimationTimer, _defaults, rAF;
+		var AnimationTimeline, _defaults, rAF;
 
 		_defaults = {
 			easing: 'linear',
 			events: {
-				tick: 'tick.AnimationTimer'
+				tick: 'tick.AnimationTimeline'
 			}
 		};
 
 		/* Constructor
 		----------------------------------------------- */
-		AnimationTimer = function (duration, options) {
+		AnimationTimeline = function (duration, options) {
 
 			var easing;
 
@@ -46,15 +46,15 @@
 
 			// determine easing function
 			easing = this._settings.easing;
-			this._easing = (typeof easing === 'function') ? easing : AnimationTimer.easing[easing];
+			this._easing = (typeof easing === 'function') ? easing : AnimationTimeline.easing[easing];
 
 		};
 
-		inherit(AnimationTimer, EventEmitter);
+		inherit(AnimationTimeline, EventEmitter);
 
 		/* Static properties
 		----------------------------------------------- */
-		AnimationTimer.easing = {
+		AnimationTimeline.easing = {
 			linear: function (t) { return t },
 			easeInQuad: function (t) { return t*t },
 			easeOutQuad: function (t) { return t*(2-t) }
@@ -82,7 +82,7 @@
 		 *
 		 * @return {void}
 		 */
-		AnimationTimer.prototype.start = function () {
+		AnimationTimeline.prototype.start = function () {
 			this._stop = false;
 			this._startTime = new Date().getTime();
 			this._tick(this._progress);
@@ -97,7 +97,7 @@
 		 * @param  {number} (optional)
 		 * @return {void}
 		 */
-		AnimationTimer.prototype._tick = function (progress) {
+		AnimationTimeline.prototype._tick = function (progress) {
 			var currTime, timePassed, _self;
 
 			_self = this;
@@ -123,7 +123,7 @@
 		 *
 		 * @return {void}
 		 */
-		AnimationTimer.prototype.reset = function () {
+		AnimationTimeline.prototype.reset = function () {
 			this._progress = 0;
 		};
 
@@ -132,14 +132,14 @@
 		 *
 		 * @return {void}
 		 */
-		AnimationTimer.prototype.stop = function () {
+		AnimationTimeline.prototype.stop = function () {
 			this._stop = true;
 		};
 
 
 		/* Export
 		----------------------------------------------- */
-		return AnimationTimer;
+		return AnimationTimeline;
 
 	});
 
