@@ -1,6 +1,6 @@
 {
   "name": "pintxos-animation_timeline",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "homepage": "https://github.com/pintxos/AnimationTimeline",
   "ignore": [
     "**/.*",
@@ -15,7 +15,8 @@
   ],
   "dependencies": {
     "eventEmitter": "~4.2.9",
-    "jquery": "~2.1.1",
-    "pintxos-inherit": "~2.1.0"
+    "jquery": ">= 1.7.0",
+    "pintxos-inherit": ">= 2.1.0",
+    "bezier-easing": "~1.0.0"
   }
 }

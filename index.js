@@ -6,7 +6,7 @@
 	if(typeof define !== 'function') {
 		window.define = function(deps, definition) {
 			window.pintxos = window.pintxos || {};
-			window.pintxos.AnimationTimeline = definition(jQuery, pintxos.inherit, EventEmitter);
+			window.pintxos.AnimationTimeline = definition(jQuery, pintxos.inherit, EventEmitter, BezierEasing);
 			define = null;
 		};
 	}
@@ -15,11 +15,13 @@
 	[
 		'jQuery',
 		'pintxos-inherit',
-		'EventEmitter'
+		'EventEmitter',
+		'BezierEasing'
 	], function (
 		$,
 		inherit,
-		EventEmitter
+		EventEmitter,
+		BezierEasing
 	) {
 
 
@@ -28,7 +30,7 @@
 		_defaults = {
 			easing: 'linear',
 			events: {
-				tick: 'tick.AnimationTimeline'
+				tick: 'tick'
 			}
 		};
 
@@ -45,18 +47,28 @@
 
 			// determine easing function
 			easing = this._settings.easing;
-			this._easing = (typeof easing === 'function') ? easing : AnimationTimeline.easing[easing];
+
+			if(typeof easing === 'string') {
+
+				if(AnimationTimeline.easing.hasOwnProperty(easing)) {
+					this._easing = AnimationTimeline.easing[easing];
+				}else {
+					this._easing = _defaults.easing;
+				}
+
+			}else {
+				this._easing = easing;
+			}
 
 		};
 
 		inherit(AnimationTimeline, EventEmitter);
 
+
 		/* Static properties
 		----------------------------------------------- */
 		AnimationTimeline.easing = {
-			linear: function (t) { return t; },
-			easeInQuad: function (t) { return t*t; },
-			easeOutQuad: function (t) { return t*(2-t); }
+			linear: [0.00, 0.0, 1.00, 1.0],
 		};
 
 
@@ -84,7 +96,7 @@
 		AnimationTimeline.prototype.start = function () {
 			this._stop = false;
 			this._startTime = new Date().getTime();
-			this._tick(this._progress);
+			this._tick();
 		};
 
 		/**
@@ -96,24 +108,30 @@
 		 * @param  {number} (optional)
 		 * @return {void}
 		 */
-		AnimationTimeline.prototype._tick = function (progress) {
-			var currTime, timePassed, _self;
+		AnimationTimeline.prototype._tick = function () {
+			var currTime, _self, timePassed;
 
 			_self = this;
 
 			currTime = new Date().getTime();
 			timePassed = currTime - this._startTime;
 
-			progress = (typeof progress === 'undefined') ? 0 : progress;
-
-			this._progress = Math.min(this._easing(timePassed / this._duration) + progress, 1);
+			this._progress = BezierEasing.apply(this, this._easing)(timePassed / this._duration);
 
 			this.emit(this._settings.events.tick, this._progress);
 
-			if(this._progress < 1 && !this._stop) {
+			if((timePassed / this._duration) <= 1 && !this._stop) {
+
 				rAF(function () {
 					_self._tick();
 				});
+
+			}else {
+
+				// make sure we stop at 100%
+				this.emit(this._settings.events.tick, 1);
+				this.emit(this._settings.events.done);
+
 			}
 		};
 
