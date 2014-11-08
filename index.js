@@ -68,7 +68,7 @@
 		/* Static properties
 		----------------------------------------------- */
 		AnimationTimeline.easing = {
-			linear: [0.00, 0.0, 1.00, 1.0],
+			linear: [0.00, 0.0, 1.00, 1.0]
 		};
 
 
