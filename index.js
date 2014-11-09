@@ -38,7 +38,7 @@
 		----------------------------------------------- */
 		AnimationTimeline = function (duration, options) {
 
-			var easing;
+			var easing, bezierCurve;
 
 			this._settings = $.extend(true, {}, _defaults, options);
 			this._duration = (typeof duration !== 'number') ? 500 : duration;
@@ -51,14 +51,16 @@
 			if(typeof easing === 'string') {
 
 				if(AnimationTimeline.easing.hasOwnProperty(easing)) {
-					this._easing = AnimationTimeline.easing[easing];
+					bezierCurve = AnimationTimeline.easing[easing];
 				}else {
-					this._easing = _defaults.easing;
+					bezierCurve = AnimationTimeline.easing[_defaults.easing];
 				}
 
 			}else {
-				this._easing = easing;
+				bezierCurve = easing;
 			}
+
+			this._easing = BezierEasing.apply(this, bezierCurve);
 
 		};
 
@@ -116,7 +118,7 @@
 			currTime = new Date().getTime();
 			timePassed = currTime - this._startTime;
 
-			this._progress = BezierEasing.apply(this, this._easing)(timePassed / this._duration);
+			this._progress = this._easing(timePassed / this._duration);
 
 			this.emit(this._settings.events.tick, this._progress);
 
