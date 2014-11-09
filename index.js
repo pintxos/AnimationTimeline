@@ -5,8 +5,16 @@
 	// UMD
 	if(typeof define !== 'function') {
 		window.define = function(deps, definition) {
+
+			var deps = [
+				jQuery,
+				pintxos.inherit,
+				EventEmitter,
+				BezierEasing
+			];
+
 			window.pintxos = window.pintxos || {};
-			window.pintxos.AnimationTimeline = definition(jQuery, pintxos.inherit, EventEmitter, BezierEasing);
+			window.pintxos.AnimationTimeline = definition.apply(this, deps);
 			define = null;
 		};
 	}
@@ -30,7 +38,8 @@
 		_defaults = {
 			easing: 'linear',
 			events: {
-				tick: 'tick'
+				tick: 'tick',
+				done: 'finish'
 			}
 		};
 
@@ -102,12 +111,9 @@
 		};
 
 		/**
-		 * Executed each frame until the progress equals 1 or the stop var is set to true.
-		 * This function is also used to start the ticking process.
-		 * An optional progress parameter can be passed when the ticking process
-		 * should start at a certain progress value.
+		 * Executed each frame until the progress equals 1 or the stop
+		 * var is set to true.
 		 *
-		 * @param  {number} (optional)
 		 * @return {void}
 		 */
 		AnimationTimeline.prototype._tick = function () {
