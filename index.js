@@ -6,7 +6,7 @@
 	if(typeof define !== 'function') {
 		window.define = function(deps, definition) {
 
-			var deps = [
+			deps = [
 				jQuery,
 				pintxos.inherit,
 				EventEmitter,
